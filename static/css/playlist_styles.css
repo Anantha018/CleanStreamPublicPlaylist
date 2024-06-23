@@ -48,23 +48,23 @@ h1 {
 
 #searchInput {
     flex: 1;
-    padding: 8px; /* Reduced padding */
+    padding: 16px; /* Increased padding for taller input */
     border: none;
-    border-radius: 4px; /* Adjusted border-radius for a softer look */
-    font-size: 14px; /* Reduced font size */
+    border-radius: 4px; /* Kept border-radius the same */
+    font-size: 20px; /* Increased font size */
     background-color: #444;
     color: #fff;
     outline: none;
     box-sizing: border-box;
-    max-width: 300px; /* Adjusted max-width to prevent excessive stretching */
+    max-width: 800px; /* Increased max-width for wider input */
 }
 
 .search-btn {
-    width: 60px;
+    width: 80px; /* Increased width for a larger button */
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 8px; /* Reduced padding */
+    padding: 20px; /* Increased padding to match input */
     border-radius: 0 4px 4px 0;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -73,6 +73,7 @@ h1 {
 .search-btn:hover {
     background-color: #0056b3;
 }
+
 
 /* Reset default browser list styles */
 ul, ol {
