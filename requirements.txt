@@ -1,6 +1,5 @@
-Flask 
-Gunicorn
-requests 
-BeautifulSoup
-pytube
-google-api-python-client
+Flask==2.1.1
+google-api-python-client==2.38.0
+pytube==12.1.0
+requests==2.27.1
+beautifulsoup4==4.11.1
