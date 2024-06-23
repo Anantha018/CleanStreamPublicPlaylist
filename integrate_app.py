@@ -187,3 +187,6 @@ def audio(video_id):
     except Exception as e:
         # Handle exceptions and return a 500 error response with the exception message
         return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=False)
