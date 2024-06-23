@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Youtube Music</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/playlist_styles.css') }}">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Search container -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search song...">
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>{{ playlist_title }} - playlist</h1>
+        {% if videos %}
+            <ul>
+                {% for video in videos %}
+                    {% if video.audio_url and 'Private video' not in video.title and 'Deleted video' not in video.title %}
+                    <li>
+                        <div class="video-info">
+                            <img src="{{ video.thumbnail_url }}" alt="Thumbnail" class="thumbnail">
+                            <div class="video-details">
+                                <h3>{{ video.title }}</h3>
+                                <p><a href="#" class="play-audio" data-audio-url="{{ video.audio_url|safe }}" data-title="{{ video.title|replace("'", "\\'")|safe }}">
+                                    <span class="audio-icon"><i class="fas fa-play"></i></span>
+                                </a></p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No valid videos found for this playlist.</p>
+        {% endif %}
+    </div>
+
+    <!-- Audio player container -->
+    <div class="audioPlayer" id="audioPlayer">
+        <!-- This div will be dynamically populated by JavaScript -->
+    </div>
+
+    <!-- JavaScript for dynamic functionality -->
+    <script src="{{ url_for('static', filename='js/playlist_script.js') }}"></script>
+</body>
+</html>

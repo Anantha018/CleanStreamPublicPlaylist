@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free YouTube Music</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_styles.css') }}">
+    <script src="{{ url_for('static', filename='js/home_script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Playlist Finder</h1>
+        
+        <form action="/" method="post" onsubmit="disableButton()">
+            <label for="username">Enter Channel Username:</label><br>
+            <input type="text" id="username" name="username"><br><br>
+            <input type="submit" id="submitBtn" value="Get my playlists">
+            <div id="loadingMessage" class="loading">
+                <div class="loading-circle"></div>
+                <span>Loading...</span>
+            </div>
+        </form>
+
+        {% if error %}
+        <p class="error-message">Error: {{ error }}</p>
+        {% endif %}
+
+        {% if playlists %}
+        <h2>{{ username }}'s Playlists</h2> <br>
+        <ul>
+            {% for playlist in playlists %}
+            <li>
+                <a href="/playlist?playlist_id={{ playlist.id }}">{{ playlist.title }}</a>    
+            </li>
+            {% endfor %}
+        </ul>
+        <script>
+            enableButton(); // Enable the submit button after playlists are rendered
+        </script>
+        {% endif %}
+    </div> 
+</body>
+</html>

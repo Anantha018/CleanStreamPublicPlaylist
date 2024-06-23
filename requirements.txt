@@ -1,0 +1,6 @@
+Flask 
+Gunicorn
+requests 
+BeautifulSoup
+pytube
+google-api-python-client

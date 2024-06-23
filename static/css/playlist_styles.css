@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #ddd;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 80px auto 20px auto; /* Adjusted top margin to provide space */
+    background-color: #2e2e2e;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+h1 {
+    color: #ddd;
+    margin-top: 0;
+}
+
+.thumbnail {
+    width: 120px;
+    height: auto;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.search-container {
+    position: fixed;
+    top: 0px; /* Adjusted top spacing to avoid overlapping with h1 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 0px); /* Adjusted width of search container */
+    background-color: #333;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 0px;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 8px; /* Reduced padding */
+    border: none;
+    border-radius: 4px; /* Adjusted border-radius for a softer look */
+    font-size: 14px; /* Reduced font size */
+    background-color: #444;
+    color: #fff;
+    outline: none;
+    box-sizing: border-box;
+    max-width: 300px; /* Adjusted max-width to prevent excessive stretching */
+}
+
+.search-btn {
+    width: 60px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px; /* Reduced padding */
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Reset default browser list styles */
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.video-list {
+    padding: 0;
+}
+
+.video-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.video-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.video-details {
+    flex: 1;
+}
+
+.audioPlayer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    background-color: #2e2e2e;
+    color: #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    opacity: 1;
+}
+
+.audioPlayer h2 {
+    font-size: 16px;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.audio-controls button {
+    background: none;
+    border: none;
+    color: #ddd;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.audio-controls button:hover {
+    color: #007bff;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.play-audio {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.play-audio:hover {
+    background-color: #0056b3;
+}
+
+.play-audio.playing {
+    background-color: #28a745;
+}
+
+.play-audio.playing:hover {
+    background-color: #1e7e34;
+}
+
+.play-audio .audio-icon {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.play-audio .audio-icon.playing {
+    color: #28a745;
+}
+
+/* Highlight active loop button */
+.loop-btn.active {
+    color: #28a745;
+}
