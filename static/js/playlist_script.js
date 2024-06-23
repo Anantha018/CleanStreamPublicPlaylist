@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const playButtons = document.querySelectorAll('.play-audio');
     const searchInput = document.getElementById('searchInput');
+    const audioPlayer = document.getElementById('audioPlayer');
     let currentAudio = null;
     let loopSameSong = false; // Flag to control looping of the same song
 
@@ -35,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.audio_url) {
-                    const audioPlayer = document.createElement('div');
-                    audioPlayer.classList.add('audioPlayer', 'active');
-                    audioPlayer.innerHTML = `
+                    const audioPlayerDiv = document.createElement('div');
+                    audioPlayerDiv.classList.add('audioPlayer', 'active');
+                    audioPlayerDiv.innerHTML = `
                         <h2>${title} - Audio Playback</h2>
                         <audio controls autoplay>
                             <source src="${data.audio_url}" type="audio/mpeg">
@@ -50,11 +51,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             <button class="loop-btn" id="loop-toggle-btn"><i class="fas fa-redo-alt"></i></button>
                         </div>
                     `;
-                    const audioPlayerContainer = document.getElementById('audioPlayer');
-                    audioPlayerContainer.innerHTML = '';
-                    audioPlayerContainer.appendChild(audioPlayer);
+                    audioPlayer.innerHTML = '';
+                    audioPlayer.appendChild(audioPlayerDiv);
 
-                    currentAudio = audioPlayer.querySelector('audio');
+                    currentAudio = audioPlayerDiv.querySelector('audio');
                     currentAudio.addEventListener('ended', function() {
                         if (loopSameSong) {
                             currentAudio.currentTime = 0; // Reset audio to beginning
@@ -64,16 +64,16 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     });
 
-                    const prevButton = audioPlayer.querySelector('.prev-btn');
+                    const prevButton = audioPlayerDiv.querySelector('.prev-btn');
                     prevButton.addEventListener('click', playPrevious);
 
-                    const playPauseButton = audioPlayer.querySelector('.play-btn');
+                    const playPauseButton = audioPlayerDiv.querySelector('.play-btn');
                     playPauseButton.addEventListener('click', togglePlayPause);
 
-                    const nextButton = audioPlayer.querySelector('.next-btn');
+                    const nextButton = audioPlayerDiv.querySelector('.next-btn');
                     nextButton.addEventListener('click', playNext);
 
-                    const loopButton = audioPlayer.querySelector('.loop-btn');
+                    const loopButton = audioPlayerDiv.querySelector('.loop-btn');
                     loopButton.addEventListener('click', toggleLoopSameSong);
 
                     currentAudio.addEventListener('timeupdate', function() {
@@ -178,13 +178,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const container = document.querySelector('.container');
-    const audioPlayer = document.getElementById('audioPlayer');
+     // Function to handle scroll behavior and hide/show audio player
+     function handleScroll() {
+        const container = document.querySelector('.container');
+        const audioPlayer = document.getElementById('audioPlayer');
 
-    // Toggle active class on audioPlayer based on scroll position
-    window.addEventListener('scroll', function() {
-        const rect = container.getBoundingClientRect();
-        audioPlayer.classList.toggle('active', rect.top <= 0);
-    });
+        // Calculate the bottom position of the container
+        const containerBottom = container.offsetTop + container.offsetHeight;
+        
+        // Toggle active class on audioPlayer based on scroll position
+        if (window.pageYOffset + window.innerHeight >= containerBottom) {
+            audioPlayer.classList.remove('active'); // Hide audio player if scrolled to bottom
+        } else {
+            audioPlayer.classList.add('active'); // Show audio player if scrolled back up
+        }
+    }
 
+    // Attach scroll event listener to handleScroll function
+    window.addEventListener('scroll', handleScroll);
+
+    // Initial check to hide audio player if initially at bottom
+    handleScroll();
 });
