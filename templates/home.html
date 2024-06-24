@@ -22,8 +22,15 @@
         </form>
 
         {% if error %}
-        <p class="error-message">No username exists. Make sure not to include "@" with the username.</p>
+            <p class="error-message">Error: Username not found. This could be due to one of the following reasons:</p>
+            <ul class="error-message">
+                <li>Ensure you do not include "@" in the username.</li>
+                <li>Only publicly available playlists will be displayed.</li>
+                <li><a href="https://support.google.com/youtube/answer/3250431?hl=en">Guide to find the username of a YouTube channel</a></li>
+                <li><a href="https://support.google.com/youtube/answer/3127309?hl=en-GB">Learn how to Change your playlists to public</a></li>
+            </ul>        
         {% endif %}
+    
 
         {% if playlists %}
         <h2>{{ username }}'s Playlists</h2> <br>
