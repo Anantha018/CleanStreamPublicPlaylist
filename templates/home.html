@@ -10,7 +10,14 @@
 <body>
     <div class="container">
         <h1>Playlist Finder</h1>
-        
+
+        <div class="image-container">
+            <div class="image-caption">This below image illustrates where to locate a channel's username.</div>
+            <img src="{{ url_for('static', filename='images/ChannelBannerHighlight.png') }}" alt="Sample Image">
+            <div class="image-caption">When entering a username, please ensure not to include "@" symbol.</div>
+            <div class="image-caption">The application will retrieve all publicly available playlists.</div>
+        </div>
+
         <div class="form-container">
             <form action="/" method="post" onsubmit="disableButton()">
                 <label for="username">Enter Channel Username:</label><br>
@@ -21,12 +28,6 @@
                     <span>Loading...</span>
                 </div>
             </form>
-            <div class="image-container">
-                <div class="image-caption">This below image illustrates where to locate a channel's username.</div> <br>
-                <img src="{{ url_for('static', filename='images/ChannelBannerHighlight.png') }}" alt="Sample Image">
-                <div class="image-caption">When entering a username, please ensure not to include "@" symbol.</div>
-                <div class="image-caption">The application will retrieve all publicly available playlists.</div>
-            </div>
         </div>
 
         {% if error %}
