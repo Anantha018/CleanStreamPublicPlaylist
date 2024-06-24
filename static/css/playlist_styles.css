@@ -188,3 +188,11 @@ audio {
 .loop-btn.active {
     color: #28a745;
 }
+
+/* Simplified style for the note */
+.note {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
