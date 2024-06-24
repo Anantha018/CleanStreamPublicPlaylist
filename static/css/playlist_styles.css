@@ -15,6 +15,9 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     position: relative;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 200px;
 }
 
 h1 {
@@ -74,7 +77,6 @@ h1 {
     background-color: #0056b3;
 }
 
-
 /* Reset default browser list styles */
 ul, ol {
     list-style: none;
@@ -107,22 +109,17 @@ ul.video-list {
 
 .audioPlayer {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
     background-color: #2e2e2e;
     color: #ddd;
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     z-index: 100;
-    display: none; /* Initially hide the audio player */
+    opacity: 1;
 }
-
-.audioPlayer.active {
-    display: block; /* Show the audio player when active */
-}
-
 
 .audioPlayer h2 {
     font-size: 16px;
