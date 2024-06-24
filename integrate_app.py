@@ -58,7 +58,7 @@ def get_playlist_info(channel_name):
         return playlists_info
 
     else:
-        raise ValueError(f"Failed to retrieve playlists. Status code: {response.status_code}")
+        raise ValueError("Failed to retrieve playlists.")
 
 def get_playlist_title(playlist_id):
     base_url = f'https://www.youtube.com/playlist?list={playlist_id}'
@@ -87,7 +87,7 @@ def get_playlist_title(playlist_id):
         return None
 
     else:
-        print(f"Failed to retrieve webpage. Status code: {response.status_code}")
+        print("Failed to retrieve webpage.")
         return None
 
 def fetch_youtube_playlist_items(playlist_id):
