@@ -14,7 +14,7 @@
         <form action="/" method="post" onsubmit="disableButton()">
             <label for="username">Enter Channel Username:</label><br>
             <input type="text" id="username" name="username"><br><br>
-            <input type="submit" id="submitBtn" value="Get my playlists">
+            <input type="submit" id="submitBtn" value="Get playlists">
             <div id="loadingMessage" class="loading">
                 <div class="loading-circle"></div>
                 <span>Loading...</span>
@@ -22,7 +22,7 @@
         </form>
 
         {% if error %}
-        <p class="error-message">Error: {{ error }}</p>
+        <p class="error-message">Error</p>
         {% endif %}
 
         {% if playlists %}
