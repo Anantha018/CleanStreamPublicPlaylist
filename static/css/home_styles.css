@@ -8,7 +8,7 @@
 /* Body styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #1e1e1e;    /* Dark background color */
+    background-color: #1e1e1e; /* Dark background color */
     color: #ddd; /* Light text color */
     padding: 20px;
     display: flex;
@@ -26,6 +26,9 @@ body {
     color: #fff; /* Light text color */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Box shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align contents horizontally */
 }
 
 /* Heading 1 styling */
@@ -34,39 +37,29 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Form container styling */
-.form-container {
-    display: flex;
-    align-items: flex-start; /* Align items at the top */
-    justify-content: space-between;
-}
-
-.form-container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
+/* Image container styling */
 .image-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 20px;
-    width: 40%;
+    width: 100%; /* Take full width of container */
+    text-align: center; /* Center align contents */
+    margin-bottom: 20px; /* Spacing below the image */
 }
 
 .image-container img {
-    display: block;
     max-width: 100%; /* Ensure image stays within its container */
     height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Rounded corners for image */
 }
 
 .image-caption {
     margin-top: 10px;
-    text-align: center;
     color: #ddd; /* Light text color */
-    font-family: Arial, sans-serif;
     font-weight: bold;
+}
+
+/* Form container styling */
+.form-container {
+    width: 100%; /* Take full width of container */
+    text-align: center; /* Center align contents */
 }
 
 form {
@@ -74,7 +67,6 @@ form {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Box shadow for depth */
-    flex: 1; /* Allow form to take available space */
     width: 100%; /* Ensure the form spans the entire width */
     min-height: 340px; /* Adjust minimum height as needed */
     display: flex;
@@ -89,8 +81,9 @@ form label {
     color: #fff; /* Label color */
 }
 
-form input[type="text"] {
-    width: 100%;
+form input[type="text"],
+form input[type="submit"] {
+    width: calc(100% - 30px); /* Adjust width to accommodate padding */
     padding: 15px; /* Increased padding */
     margin-bottom: 15px; /* Increased margin */
     border: 1px solid #555; /* Darker border */
@@ -98,7 +91,7 @@ form input[type="text"] {
     background-color: #444; /* Dark input background */
     color: #fff; /* Light text color */
     font-size: 18px; /* Increased font size */
-    height: 60px;
+    font-weight: bold; /* Make text bold */
 }
 
 form input[type="submit"] {
@@ -106,13 +99,14 @@ form input[type="submit"] {
     color: #fff;
     cursor: pointer;
     border: none;
-    padding: 15px; /* Match padding with text input */
     font-size: 18px; /* Match font size with text input */
+    font-weight: bold; /* Make text bold */
 }
 
 /* Error message styling */
 .error-message {
     color: #dc3545; /* Red error message */
+    font-weight: bold;
     margin-top: 10px;
 }
 
@@ -172,13 +166,6 @@ ul li a:hover {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-/* Error message styling */
-.error-message {
-    color: #dc3545; /* Red error message */
-    font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .error-reasons {
