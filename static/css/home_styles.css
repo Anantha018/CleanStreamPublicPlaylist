@@ -137,3 +137,29 @@ ul li a:hover {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Error message styling */
+.error-message {
+    color: #dc3545; /* Red error message */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.error-reasons {
+    list-style-type: none;
+    padding: 0;
+}
+
+.error-reasons li {
+    margin-bottom: 5px;
+}
+
+.error-reasons a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 14px; /* Adjust font size for links */
+}
+
+.error-reasons a:hover {
+    text-decoration: underline;
+}
