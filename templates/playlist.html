@@ -11,7 +11,7 @@
 <body>
     <!-- Search container -->
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search song...">
+        <input type="text" id="searchInput" placeholder="Search song in the playlist...">
         <button class="search-btn"><i class="fas fa-search"></i></button>
     </div>
 
@@ -40,12 +40,12 @@
             <p>No valid videos found for this playlist.</p>
         {% endif %}
     </div>
-
+    
     <!-- Audio player container -->
     <div class="audioPlayer" id="audioPlayer">
         <!-- This div will be dynamically populated by JavaScript -->
     </div>
-
+    
     <!-- JavaScript for dynamic functionality -->
     <script src="{{ url_for('static', filename='js/playlist_script.js') }}"></script>
 </body>
