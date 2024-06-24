@@ -48,16 +48,16 @@ form label {
     margin-bottom: 10px;
     color: #fff; /* Label color */
 }
-
 form input[type="text"],
 form input[type="submit"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 15px; /* Increased padding */
+    margin-bottom: 15px; /* Increased margin */
     border: 1px solid #555; /* Darker border */
     border-radius: 4px;
     background-color: #444; /* Dark input background */
     color: #fff; /* Light text color */
+    font-size: 18px; /* Increased font size */
 }
 
 form input[type="submit"] {
@@ -65,11 +65,14 @@ form input[type="submit"] {
     color: #fff;
     cursor: pointer;
     border: none;
+    padding: 15px; /* Match padding with text input */
+    font-size: 18px; /* Match font size with text input */
 }
 
 form input[type="submit"]:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+
 
 /* Error message styling */
 .error-message {
