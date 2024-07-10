@@ -4,6 +4,7 @@ from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
 import json, requests, re
+from dltube import DLTube  # Import DLTube
 
 app = Flask(__name__)
 
@@ -168,22 +169,23 @@ def playlist():
 @app.route('/audio/<video_id>', methods=['GET'])
 def audio(video_id):
     try:
-        # Initialize a YouTube object with the given video ID
-        yt = YouTube(f"https://www.youtube.com/watch?v={video_id}")
-        
-        # Filter available streams to get only audio streams and select the first one
-        audio_stream = yt.streams.filter(only_audio=True).first()
-        
-        # Extract the audio URL if available, otherwise set it to None
-        audio_url = audio_stream.url if audio_stream else None
-        
-        # If no audio URL is found, return a 404 error response
-        if not audio_url:
+        # Initialize a DLTube object
+        dl = DLTube()
+
+        # Get the audio URL for the provided video ID
+        audio_info = dl.get_audio_url(video_id)
+
+        # Check if audio_info contains the URL
+        if 'audio_url' in audio_info:
+            # Return JSON response with the audio URL and video title
+            return jsonify({
+                'audio_url': audio_info['audio_url'],
+                'title': audio_info.get('title', 'Unknown Title')
+            })
+        else:
+            # If no audio URL is found, return a 404 error response
             return jsonify({'error': 'Audio stream not found'}), 404
-        
-        # Return a JSON response with the audio URL and video title
-        return jsonify({'audio_url': audio_url, 'title': yt.title})
-    
+
     except Exception as e:
         # Handle exceptions and return a 500 error response with the exception message
         return jsonify({'error': str(e)}), 500
