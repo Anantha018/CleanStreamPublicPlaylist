@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request,jsonify
-from pytube import YouTube
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
 import json, requests, re
-from dltube import DLTube  # Import DLTube
+import yt_dlp as ytdlp
 
 app = Flask(__name__)
 
@@ -169,23 +168,26 @@ def playlist():
 @app.route('/audio/<video_id>', methods=['GET'])
 def audio(video_id):
     try:
-        # Initialize a DLTube object
-        dl = DLTube()
-
-        # Get the audio URL for the provided video ID
-        audio_info = dl.get_audio_url(video_id)
-
-        # Check if audio_info contains the URL
-        if 'audio_url' in audio_info:
-            # Return JSON response with the audio URL and video title
-            return jsonify({
-                'audio_url': audio_info['audio_url'],
-                'title': audio_info.get('title', 'Unknown Title')
-            })
-        else:
-            # If no audio URL is found, return a 404 error response
-            return jsonify({'error': 'Audio stream not found'}), 404
-
+        # Create a YTDLP extractor object
+        ydl_opts = {
+            'format': 'bestaudio/best',  # Only download audio
+            'quiet': True,  # Suppress console output
+            'noplaylist': True,  # Do not download playlists
+        }
+        
+        # Use yt-dlp to fetch the video information
+        with ytdlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(f"https://www.youtube.com/watch?v={video_id}", download=False)
+            
+            # Extract the audio URL
+            audio_url = info_dict.get('url')
+            
+            # Check if the audio URL is found
+            if audio_url:
+                return jsonify({'audio_url': audio_url, 'title': info_dict.get('title', 'Unknown Title')})
+            else:
+                return jsonify({'error': 'Audio stream not found'}), 404
+    
     except Exception as e:
         # Handle exceptions and return a 500 error response with the exception message
         return jsonify({'error': str(e)}), 500

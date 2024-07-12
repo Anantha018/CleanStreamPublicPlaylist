@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Tube Music</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/playlist_styles.css') }}">
     <!-- Font Awesome for icons -->
@@ -16,7 +17,7 @@
 
     <!-- Main content -->
     <div class="container">
-        <h1>{{ playlist_title }} - playlist</h1>
+        <h3>{{ playlist_title }} - playlist</h3>
         <p class="note">Note: Some songs may not be playable due to unavailable audio.</p>
         {% if videos %}
             <ul>
@@ -26,7 +27,7 @@
                         <div class="video-info">
                             <img src="{{ video.thumbnail_url }}" alt="Thumbnail" class="thumbnail">
                             <div class="video-details">
-                                <h3>{{ video.title }}</h3>
+                                <h4>{{ video.title }}</h4>
                                 <p><a href="#" class="play-audio" data-audio-url="{{ video.audio_url|safe }}" data-title="{{ video.title|replace("'", "\\'")|safe }}">
                                     <span class="audio-icon"><i class="fas fa-play"></i></span>
                                 </a></p>

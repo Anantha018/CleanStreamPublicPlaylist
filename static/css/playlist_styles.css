@@ -1,3 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
 body {
     font-family: Arial, sans-serif;
     background-color: #2e2e2e;
@@ -7,9 +14,10 @@ body {
     padding: 0;
 }
 
+/* Main container */
 .container {
     max-width: 800px;
-    margin: 80px auto 20px auto; /* Adjusted top margin to provide space */
+    margin: 80px auto 200px auto;
     background-color: #2e2e2e;
     padding: 40px;
     border-radius: 8px;
@@ -26,19 +34,20 @@ h1 {
 }
 
 .thumbnail {
-    width: 120px;
+    width: 90px;
     height: auto;
     border-radius: 4px;
     margin-right: 10px;
 }
 
+/* Search container styling */
 .search-container {
     position: fixed;
-    top: 0px; /* Adjusted top spacing to avoid overlapping with h1 */
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 0px); /* Adjusted width of search container */
-    background-color: #333;
+    width: 100%;
+    background-color: #2e2e2e;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -46,28 +55,28 @@ h1 {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 #searchInput {
     flex: 1;
-    padding: 16px; /* Increased padding for taller input */
+    padding: 16px;
     border: none;
-    border-radius: 4px; /* Kept border-radius the same */
-    font-size: 20px; /* Increased font size */
+    border-radius: 4px;
+    font-size: 20px;
     background-color: #444;
     color: #fff;
     outline: none;
     box-sizing: border-box;
-    max-width: 800px; /* Increased max-width for wider input */
+    max-width: 800px;
 }
 
 .search-btn {
-    width: 80px; /* Increased width for a larger button */
+    width: 80px;
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 20px; /* Increased padding to match input */
+    padding: 20px;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -89,7 +98,7 @@ ul.video-list {
 }
 
 .video-item {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     border-bottom: 1px solid #444;
     padding-bottom: 10px;
     display: flex;
@@ -101,17 +110,19 @@ ul.video-list {
     display: flex;
     align-items: center;
     width: 100%;
+    margin-top: 30px;
 }
 
 .video-details {
     flex: 1;
 }
 
+/* Audio player styling */
 .audioPlayer {
     position: fixed;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     background-color: #2e2e2e;
     color: #ddd;
     padding: 15px;
@@ -119,12 +130,6 @@ ul.video-list {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     z-index: 100;
     opacity: 1;
-}
-
-.audioPlayer h2 {
-    font-size: 16px;
-    margin: 0;
-    padding-bottom: 10px;
 }
 
 .audio-controls {
@@ -176,7 +181,7 @@ audio {
 }
 
 .play-audio .audio-icon {
-    font-size: 20px;
+    font-size: 10px;
     margin-right: 5px;
 }
 
@@ -191,8 +196,82 @@ audio {
 
 /* Simplified style for the note */
 .note {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    font-size: 14px;
+    margin-top: 25px;
+    margin-bottom: 60px;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .container {
+        margin: 115px 0px 200px auto;
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .search-container {
+        width: calc(100% - 1px);
+        left: -2px;
+        transform: none;
+        border-radius: 0;
+        padding: 36px 33px
+    }
+
+    #searchInput {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .search-btn {
+        width: 60px;
+        padding: 11px;
+    }
+
+    .thumbnail {
+        width: 80px;
+        margin-right: 5px;
+    }
+
+    .video-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .video-info {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 20px 0px;
+    }
+
+    .audioPlayer {
+        left:-3px;
+        padding: 10px;
+    }
+
+    .audio-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        margin-left: 45px;
+    }
+
+    .audioPlayer h2 {
+        font-size: 14px;
+    }
+
+    .audio-controls button {
+        font-size: 20px;
+    }
+
+    .play-audio {
+        margin-top: 10px;
+        padding: 8px 18px;
+        font-size: 6px;
+    }
+
+    .note {
+        font-size: 14px;
+    }
 }
