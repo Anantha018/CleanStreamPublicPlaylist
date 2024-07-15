@@ -46,8 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         </audio>
                         
                         <div class="audio-controls">
-                        
-                        <div class="audio-controls">
                             <button class="prev-btn"><i class="fas fa-step-backward"></i></button>
                             <button class="play-btn"><i class="fas fa-pause"></i></button>
                             <button class="next-btn"><i class="fas fa-step-forward"></i></button>
