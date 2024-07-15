@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     audioPlayer.innerHTML = `
                         <h2>${title}</h2>
                         <audio controls autoplay>
-                            <source src="${data.audio_url}" type="audio/mpeg">
+                            <source src="${data.audio_url}" type="audio/ogg">
                             Your browser does not support the audio element.
                         </audio>
                         <div class="audio-controls">
