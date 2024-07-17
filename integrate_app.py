@@ -169,8 +169,9 @@ def playlist():
 def audio(video_id):
     try:
         # Create a YTDLP extractor object
+        # Create a YTDLP extractor object
         ydl_opts = {
-            'format': 'bestaudio/best',  # Only download audio
+            'format': 'bestaudio[ext=m4a]/best',  # Only download audio
             'quiet': True,  # Suppress console output
             'noplaylist': True,  # Do not download playlists
         }
