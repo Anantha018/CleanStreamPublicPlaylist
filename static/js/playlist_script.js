@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     const playButtons = document.querySelectorAll('.play-audio');
     const searchInput = document.getElementById('searchInput');
-    let currentAudio = null;
+    let currentSound = null;
     let loopSameSong = false; // Flag to control looping of the same song
+
+    // Detect iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
     // Function to handle filtering of playlist items based on search input
     function filterPlaylists(searchTerm) {
@@ -26,27 +29,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to play audio
     function playAudio(audioUrl, title) {
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio = null;
+        if (currentSound) {
+            currentSound.unload();
         }
 
         fetch(`/audio/${audioUrl.split('/').pop()}`)
             .then(response => response.json())
             .then(data => {
                 if (data.audio_url) {
+                    currentSound = new Howl({
+                        src: [data.audio_url],
+                        html5: true,
+                        autoplay: !isIOS,
+                        onplay: function() {
+                            updatePlayPauseButton(true);
+                        },
+                        onpause: function() {
+                            updatePlayPauseButton(false);
+                        },
+                        onend: function() {
+                            if (loopSameSong) {
+                                currentSound.play();
+                            } else {
+                                playNext();
+                            }
+                        },
+                        onloaderror: function() {
+                            console.error('Error loading audio');
+                            playNext();
+                        }
+                    });
+
                     const audioPlayer = document.createElement('div');
                     audioPlayer.classList.add('audioPlayer', 'active');
                     audioPlayer.innerHTML = `
                         <h2>${title}</h2>
-                        <audio controls autoplay>
-                            <source src="${data.audio_url}" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                        
                         <div class="audio-controls">
                             <button class="prev-btn"><i class="fas fa-step-backward"></i></button>
-                            <button class="play-btn"><i class="fas fa-pause"></i></button>
+                            <button class="play-btn"><i class="fas fa-${isIOS ? 'play' : 'pause'}"></i></button>
                             <button class="next-btn"><i class="fas fa-step-forward"></i></button>
                             <button class="loop-btn" id="loop-toggle-btn"><i class="fas fa-redo-alt"></i></button>
                         </div>
@@ -54,16 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     const audioPlayerContainer = document.getElementById('audioPlayer');
                     audioPlayerContainer.innerHTML = '';
                     audioPlayerContainer.appendChild(audioPlayer);
-
-                    currentAudio = audioPlayer.querySelector('audio');
-                    currentAudio.addEventListener('ended', function() {
-                        if (loopSameSong) {
-                            currentAudio.currentTime = 0; // Reset audio to beginning
-                            currentAudio.play(); // Play the same song again
-                        } else {
-                            playNext(); // Play the next song in the playlist
-                        }
-                    });
 
                     const prevButton = audioPlayer.querySelector('.prev-btn');
                     prevButton.addEventListener('click', playPrevious);
@@ -77,39 +87,43 @@ document.addEventListener('DOMContentLoaded', function () {
                     const loopButton = audioPlayer.querySelector('.loop-btn');
                     loopButton.addEventListener('click', toggleLoopSameSong);
 
-                    currentAudio.addEventListener('timeupdate', function() {
-                        if (currentAudio.paused) {
-                            playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
-                        } else {
-                            playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
-                        }
-                    });
-
                     // Update playButtons to reflect current playing state
                     playButtons.forEach(btn => btn.classList.remove('playing'));
                     const currentButton = Array.from(playButtons).find(btn => btn.dataset.audioUrl === audioUrl);
                     if (currentButton) {
                         currentButton.classList.add('playing');
                     }
+
+                    if (isIOS) {
+                        console.log('Audio ready on iOS, waiting for user interaction');
+                    }
                 } else {
+                    console.error('No audio URL found');
                     playNext();
                 }
             })
             .catch(error => {
-                console.error('Error fetching audio:');
+                console.error('Error fetching audio:', error);
                 playNext();
             });
     }
 
+    // Function to update play/pause button
+    function updatePlayPauseButton(isPlaying) {
+        const playPauseButton = document.querySelector('.play-btn');
+        if (playPauseButton) {
+            playPauseButton.innerHTML = `<i class="fas fa-${isPlaying ? 'pause' : 'play'}"></i>`;
+        }
+    }
+
     // Function to toggle play/pause
     function togglePlayPause() {
-        if (currentAudio.paused || currentAudio.ended) {
-            if (currentAudio.ended) {
-                currentAudio.currentTime = 0;
+        if (currentSound) {
+            if (currentSound.playing()) {
+                currentSound.pause();
+            } else {
+                currentSound.play();
             }
-            currentAudio.play();
-        } else {
-            currentAudio.pause();
         }
     }
 
@@ -122,9 +136,9 @@ document.addEventListener('DOMContentLoaded', function () {
             prevIndex = playButtons.length - 1;
         }
 
-        if (loopSameSong && currentAudio) {
-            currentAudio.currentTime = 0; // Reset audio to beginning
-            currentAudio.play(); // Play the same song again
+        if (loopSameSong && currentSound) {
+            currentSound.stop();
+            currentSound.play();
         } else {
             const prevButton = playButtons[prevIndex];
             prevButton.classList.add('playing');
@@ -142,9 +156,9 @@ document.addEventListener('DOMContentLoaded', function () {
             nextIndex = 0;
         }
 
-        if (loopSameSong && currentAudio) {
-            currentAudio.currentTime = 0; // Reset audio to beginning
-            currentAudio.play(); // Play the same song again
+        if (loopSameSong && currentSound) {
+            currentSound.stop();
+            currentSound.play();
         } else {
             const nextButton = playButtons[nextIndex];
             nextButton.classList.add('playing');
@@ -170,8 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Automatically play the first song if available
-    if (playButtons.length > 0) {
+    // Automatically play the first song if available (except on iOS)
+    if (!isIOS && playButtons.length > 0) {
         const firstButton = playButtons[0];
         if (firstButton.dataset.audioUrl) {
             firstButton.classList.add('playing');
@@ -187,5 +201,4 @@ document.addEventListener('DOMContentLoaded', function () {
         const rect = container.getBoundingClientRect();
         audioPlayer.classList.toggle('active', rect.top <= 0);
     });
-
-});
+})
