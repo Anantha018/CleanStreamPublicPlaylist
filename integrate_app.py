@@ -12,7 +12,6 @@ YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
