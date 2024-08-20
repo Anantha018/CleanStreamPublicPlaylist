@@ -175,7 +175,11 @@ def audio(video_id):
             'format': 'bestaudio/best',  # Choose the best available audio quality
             'quiet': True,  # Suppress output
             'noplaylist': True,  # Do not download playlists, just individual videos
-            'extract_flat': True,  # Ensures only metadata is extracted
+            'postprocessors': [{  # Using ffmpeg to process the audio
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',  # Convert audio to mp3 format
+                'preferredquality': '192',  # Set audio quality (192kbps)
+            }],
         }
         
         # Extract audio URL using yt-dlp
