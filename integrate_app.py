@@ -172,15 +172,19 @@ def audio(video_id):
         
         # yt-dlp options
         ydl_opts = {
-            'format': 'bestaudio/best',  # Choose the best available audio quality
-            'quiet': True,  # Suppress output
-            'noplaylist': True,  # Do not download playlists, just individual videos
-            'postprocessors': [{  # Using ffmpeg to process the audio
+            'format': 'bestaudio/best',
+            'quiet': True,
+            'noplaylist': True,
+            'extract_flat': True,
+            'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',  # Convert audio to mp3 format
-                'preferredquality': '192',  # Set audio quality (192kbps)
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
             }],
+            'noplaylist': True,  # Avoid playlists
+            'source_address': None,  # No specific IP
         }
+
         
         # Extract audio URL using yt-dlp
         with ytdlp.YoutubeDL(ydl_opts) as ydl:
