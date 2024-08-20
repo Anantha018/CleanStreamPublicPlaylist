@@ -3,7 +3,7 @@ from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
 import json, requests, re
-import yt_dlp as ytdlp
+import os, yt_dlp, random, time
 
 app = Flask(__name__)
 
@@ -168,6 +168,14 @@ def audio(video_id):
     try:
         video_url = f"https://www.youtube.com/watch?v={video_id}"
         
+        # List of User-Agents to rotate
+        user_agents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15',
+            # Add more as needed
+        ]
+        
         # yt-dlp options
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -179,12 +187,16 @@ def audio(video_id):
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'noplaylist': True,  # Avoid playlists
+            'noplaylist': True,
+            'user_agent': random.choice(user_agents),  # Rotate User-Agent
             'source_address': None,  # No specific IP
         }
         
+        # Random delay to mimic human behavior
+        time.sleep(random.uniform(1, 3))  # Sleep between 1 to 3 seconds
+        
         # Extract audio URL using yt-dlp
-        with ytdlp.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(video_url, download=False)
             audio_url = info_dict.get('url')  # Extract the audio URL
             
@@ -196,8 +208,6 @@ def audio(video_id):
     except Exception as e:
         # Handle exceptions and return a 500 error response with the exception message
         return jsonify({'error': str(e)}), 500
-
-import os
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
