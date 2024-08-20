@@ -1,1 +1,1 @@
-web: python integrate_app.py
+web: gunicorn -w 4 -b 0.0.0.0:$PORT integrate_app:app
