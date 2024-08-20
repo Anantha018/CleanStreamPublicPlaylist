@@ -176,20 +176,13 @@ def audio(video_id):
             'quiet': True,
             'noplaylist': True,
             'extract_flat': True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'noplaylist': True,  # Avoid playlists
-            'source_address': None,  # No specific IP
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         }
-
         
         # Extract audio URL using yt-dlp
         with ytdlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(video_url, download=False)
-            audio_url = info_dict.get('url')  # Extract the audio URL
+            audio_url = info_dict.get('url')
             
             if audio_url:
                 return jsonify({'audio_url': audio_url})
@@ -197,7 +190,6 @@ def audio(video_id):
                 return jsonify({'error': 'Audio stream not found'}), 404
     
     except Exception as e:
-        # Handle exceptions and return a 500 error response with the exception message
         return jsonify({'error': str(e)}), 500
 
 import os
