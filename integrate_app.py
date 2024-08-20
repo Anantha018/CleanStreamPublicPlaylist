@@ -3,7 +3,7 @@ from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
 import json, requests, re
-import os, yt_dlp, random, time
+import os, yt_dlp, random
 
 app = Flask(__name__)
 
@@ -173,7 +173,6 @@ def audio(video_id):
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15',
-            # Add more as needed
         ]
         
         # yt-dlp options
@@ -191,9 +190,6 @@ def audio(video_id):
             'user_agent': random.choice(user_agents),  # Rotate User-Agent
             'source_address': None,  # No specific IP
         }
-        
-        # Random delay to mimic human behavior
-        time.sleep(random.uniform(1, 3))  # Sleep between 1 to 3 seconds
         
         # Extract audio URL using yt-dlp
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
