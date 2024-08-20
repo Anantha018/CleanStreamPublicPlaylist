@@ -8,6 +8,7 @@ cffi==1.17.0
 charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
+ffmpeg==1.4
 Flask==3.0.3
 google-api-core==2.19.1
 google-api-python-client==2.137.0
@@ -51,6 +52,5 @@ websocket-client==1.8.0
 websockets==12.0
 Werkzeug==3.0.3
 wsproto==1.2.0
-youtube-dl
-yt-dlp
-gunicorn
+youtube-dl==2021.12.17
+yt-dlp==2024.8.6
