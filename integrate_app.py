@@ -3,7 +3,10 @@ from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
 import json, requests, re
-import os, yt_dlp, random
+import os, Js
+from yt_dlp import YoutubeDL
+from flask import jsonify
+
 
 app = Flask(__name__)
 
@@ -166,44 +169,26 @@ def playlist():
 @app.route('/audio/<video_id>', methods=['GET'])
 def audio(video_id):
     try:
-        video_url = f"https://www.youtube.com/watch?v={video_id}"
-        
-        # List of User-Agents to rotate
-        user_agents = [
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15',
-        ]
-        
-        # yt-dlp options
+        yt_url = f'https://www.youtube.com/watch?v={video_id}'
         ydl_opts = {
-            'format': 'bestaudio/best',
-            'quiet': True,
-            'noplaylist': True,
-            'extract_flat': True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'noplaylist': True,
-            'user_agent': random.choice(user_agents),  # Rotate User-Agent
-            'source_address': None,  # No specific IP
+            'format': 'bestaudio[ext=m4a]/best',  # Only download audio
+            'quiet': True,  # Suppress console output
+            'noplaylist': True,  # Do not download playlists
         }
-        
-        # Extract audio URL using yt-dlp
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info_dict = ydl.extract_info(video_url, download=False)
-            audio_url = info_dict.get('url')  # Extract the audio URL
+
+        with YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(yt_url, download=False)
+            audio_url = info['url']
+
+            response = requests.head(audio_url, allow_redirects=True)
             
-            if audio_url:
+            if response.status_code == 200:
                 return jsonify({'audio_url': audio_url})
             else:
-                return jsonify({'error': 'Audio stream not found'}), 404
+                return jsonify({'error': 'Audio URL is not reachable'}, status=404)
     
     except Exception as e:
-        # Handle exceptions and return a 500 error response with the exception message
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'An error occurred: {str(e)}'}, status=500)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
