@@ -168,24 +168,23 @@ def playlist():
 @app.route('/audio/<video_id>', methods=['GET'])
 def audio(video_id):
     try:
-        # Create a YTDLP extractor object
-        # Create a YTDLP extractor object
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+        
+        # yt-dlp options
         ydl_opts = {
-            'format': 'bestaudio[ext=m4a]/best',  # Only download audio
-            'quiet': True,  # Suppress console output
-            'noplaylist': True,  # Do not download playlists
+            'format': 'bestaudio/best',  # Choose the best available audio quality
+            'quiet': True,  # Suppress output
+            'noplaylist': True,  # Do not download playlists, just individual videos
+            'extract_flat': True,  # Ensures only metadata is extracted
         }
         
-        # Use yt-dlp to fetch the video information
+        # Extract audio URL using yt-dlp
         with ytdlp.YoutubeDL(ydl_opts) as ydl:
-            info_dict = ydl.extract_info(f"https://www.youtube.com/watch?v={video_id}", download=False)
+            info_dict = ydl.extract_info(video_url, download=False)
+            audio_url = info_dict.get('url')  # Extract the audio URL
             
-            # Extract the audio URL
-            audio_url = info_dict.get('url')
-            
-            # Check if the audio URL is found
             if audio_url:
-                return jsonify({'audio_url': audio_url, 'title': info_dict.get('title', 'Unknown Title')})
+                return jsonify({'audio_url': audio_url})
             else:
                 return jsonify({'error': 'Audio stream not found'}), 404
     
